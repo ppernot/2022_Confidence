@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/509006671.svg)](https://zenodo.org/badge/latestdoi/509006671)
+
+
 # 2022_Confidence
 
 Code and data to reproduce the results of 
