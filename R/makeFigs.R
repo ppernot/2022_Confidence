@@ -149,8 +149,7 @@ plotCCMult(
   title = 'S = RMSE; Normalized', gPars = gPars)
 dev.off()
 
-
-# Fig_02b ####
+# Fig_03 ####
 D = read.table(
   '../Data/SYNT01_data.csv',
   sep = ",",
@@ -163,7 +162,7 @@ uE = D$uE
 ftab = c('Uniform', 'Normp4', 'Laplace', 'T4')
 for (i in seq_along(ftab)) {
   png(
-    file = paste0(figDir, '/Fig_02b', letters[i], '.png'),
+    file = paste0(figDir, '/Fig_03', letters[i], '.png'),
     width = gPars$reso,
     height = gPars$reso
   )
@@ -178,157 +177,8 @@ for (i in seq_along(ftab)) {
   dev.off()
 }
 
+
 # Fig_04 ####
-D = read.table('../Data/SYNT01_data.csv',
-               sep = ",", header = TRUE,
-               check.names = FALSE,
-               stringsAsFactors = FALSE)
-E = D$E
-uE = D$uE
-
-label = 1
-png(file = paste0(figDir,'/Fig_04',letters[label],'.png'),
-    width = gPars$reso, height = gPars$reso)
-ErrViewLib::plotCC(
-  E, uE,
-  label = label,
-  title = paste0('SYNT01'),
-  gPars = gPars
-)
-dev.off()
-
-label = label + 1
-png(file = paste0(figDir,'/Fig_04',letters[label],'.png'),
-    width = gPars$reso, height = gPars$reso)
-ErrViewLib::plotCC(
-  E, uE, statS = 'Q95',
-  label = label,
-  title = paste0('SYNT01'),
-  gPars = gPars
-)
-dev.off()
-
-# Fig_03 ####
-
-
-label = 0
-
-## PRO2022 ####
-label = label +1
-D = read.table('../Data/PRO2022_Data.csv',
-               sep = ",", header = TRUE,
-               check.names = FALSE,
-               stringsAsFactors = FALSE)
-
-R  = D[,1]
-C  = D[,2]
-uE = D[,3]/1.96
-E  = R-C
-Z = E/uE
-vZ = ErrViewLib::varZCI(Z,method = "cho")
-
-png(file = paste0(figDir,'/Fig_03',letters[label],'.png'),
-    width = gPars$reso, height = gPars$reso)
-plotCC(
-  E, uE, oracle = TRUE, legLoc = 'topright',
-  label = label,
-  title = paste0('PRO2022_a; Var(Z) = ',
-                 ErrViewLib::prettyUnc(vZ$mean, vZ$sd, numDig = 1)),
-  gPars = gPars
-)
-dev.off()
-
-label = label +1
-uE = D[,4]/1.96
-Z = E/uE
-vZ = ErrViewLib::varZCI(Z,method = "cho")
-
-png(file = paste0(figDir,'/Fig_03',letters[label],'.png'),
-    width = gPars$reso, height = gPars$reso)
-plotCC(
-  E, uE, oracle = TRUE,
-  label = label,   legLoc = 'topright',
-  title = paste0('PRO2022_b; Var(Z) = ',
-                 ErrViewLib::prettyUnc(vZ$mean, vZ$sd, numDig = 1)),
-  gPars = gPars
-)
-dev.off()
-
-label = label +1
-png(file = paste0(figDir,'/Fig_03',letters[label],'.png'),
-    width = gPars$reso, height = gPars$reso)
-plotCC(
-  E, uE, oracle = TRUE, normalize = TRUE,
-  title = 'PRO2022_b; Normalized CC',
-  legLoc = 'topright', label = label, gPars = gPars
-)
-dev.off()
-
-
-## ZHE2022 ####
-label = label + 1
-D = read.table('../Data/ZHE2022_AIQM1.csv',
-               sep = ",", header = TRUE,
-               check.names = FALSE,
-               stringsAsFactors = FALSE)
-N = 8 # sampling size
-
-E  = D[,2]
-uE = D[,3] #/ sqrt(N)
-Z  = E/uE
-vZ = ErrViewLib::varZCI(Z,method = "cho")
-
-png(file = paste0(figDir,'/Fig_03',letters[label],'.png'),
-    width = gPars$reso, height = gPars$reso)
-plotCC(
-  E, uE,
-  oracle = TRUE,
-  label = label,
-  legLoc = 'topright',
-  title = paste0('ZHE2022_AIQM1; Var(Z) = ',
-                 ErrViewLib::prettyUnc(vZ$mean, vZ$sd, numDig = 1)),
-  gPars = gPars
-)
-dev.off()
-
-label = label + 1
-D = read.table('../Data/ZHE2022_ANI-1ccx.csv',
-               sep = ",", header = TRUE,
-               check.names = FALSE,
-               stringsAsFactors = FALSE)
-
-E  = D[,2]
-uE = D[,3]  #/ sqrt(N)
-Z  = E/uE
-
-vZ = ErrViewLib::varZCI(Z,method = "cho")
-
-png(file = paste0(figDir,'/Fig_03',letters[label],'.png'),
-    width = gPars$reso, height = gPars$reso)
-plotCC(
-  E, uE,
-  label = label,
-  oracle = TRUE,
-  legLoc = 'topright',
-  title = paste0('ZHE2022_ANI-1ccx; Var(Z) = ',
-                 ErrViewLib::prettyUnc(vZ$mean, vZ$sd, numDig = 1)),
-  gPars = gPars
-)
-dev.off()
-
-label = label +1
-png(file = paste0(figDir,'/Fig_03',letters[label],'.png'),
-    width = gPars$reso, height = gPars$reso)
-plotCC(
-  E, uE, oracle = TRUE, normalize = TRUE,
-  title = 'ZHE2022_ANI-1ccx; Normalized CC',
-  legLoc = 'topright', label = label, gPars = gPars
-)
-dev.off()
-
-# PAL2022 ####
-
-## Fig 05 ####
 slide = TRUE
 nBin = 20
 label = 0
@@ -346,7 +196,7 @@ uE = D$X  #/sqrt(2) # Simple recalibration
 Z  = E / uE
 
 label = label +1
-png(file = paste0(figDir,'/Fig_05',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_04',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 ErrViewLib::plotLZV(
   uE, Z,
@@ -363,13 +213,16 @@ ErrViewLib::plotLZV(
 dev.off()
 
 label = label +1
-png(file = paste0(figDir,'/Fig_05',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_04',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
-plotCC(
+ErrViewLib::plotCC(
   E, uE,
   showUk = TRUE,
-  label = label,
-  gPars = gPars
+  oracle = TRUE,
+  ylim   = c(0,0.55),
+  legLoc = 'topright',
+  label  = label,
+  gPars  = gPars
 )
 dev.off()
 
@@ -377,7 +230,7 @@ uE = D$uE
 Z  = E / uE
 
 label = label +1
-png(file = paste0(figDir,'/Fig_05',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_04',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 ErrViewLib::plotLZV(
   uE, Z,
@@ -394,17 +247,20 @@ ErrViewLib::plotLZV(
 dev.off()
 
 label = label +1
-png(file = paste0(figDir,'/Fig_05',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_04',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
-plotCC(
+ErrViewLib::plotCC(
   E, uE,
   showUk = TRUE,
-  label = label,
-  gPars = gPars
+  oracle = TRUE,
+  ylim   = c(0,0.55),
+  legLoc = 'topright',
+  label  = label,
+  gPars  = gPars
 )
 dev.off()
 
-## Fig 06 ####
+# Fig_05 ####
 slide = TRUE
 nBin = 20
 label = 0
@@ -422,7 +278,7 @@ uE = D$uE
 Z  = E / uE
 
 label = label +1
-png(file = paste0(figDir,'/Fig_06',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_05',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 ErrViewLib::plotLZV(
   uE, Z,
@@ -439,7 +295,7 @@ ErrViewLib::plotLZV(
 dev.off()
 
 label = label +1
-png(file = paste0(figDir,'/Fig_06',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_05',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 plotCC(
   E, uE,
@@ -462,7 +318,7 @@ uE = D$uE
 Z  = E / uE
 
 label = label +1
-png(file = paste0(figDir,'/Fig_06',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_05',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 ErrViewLib::plotLZV(
   uE, Z,
@@ -479,7 +335,7 @@ ErrViewLib::plotLZV(
 dev.off()
 
 label = label +1
-png(file = paste0(figDir,'/Fig_06',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_05',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 plotCC(
   E, uE,
@@ -489,7 +345,7 @@ plotCC(
 )
 dev.off()
 
-## Fig 07 ####
+# Fig_06 ####
 label = 0
 logX = TRUE
 xlim = c(0.005,2)
@@ -512,7 +368,7 @@ if (sum(!sel) > 0) {
 Z  = E / uE
 
 label = label +1
-png(file = paste0(figDir,'/Fig_07',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_06',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 ErrViewLib::plotLZV(
   uE, Z,
@@ -530,7 +386,7 @@ ErrViewLib::plotLZV(
 dev.off()
 
 label = label +1
-png(file = paste0(figDir,'/Fig_07',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_06',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 ErrViewLib::plotLZV(
   uE, Z,
@@ -549,7 +405,7 @@ ErrViewLib::plotLZV(
 dev.off()
 
 label = label +1
-png(file = paste0(figDir,'/Fig_07',letters[label],'.png'),
+png(file = paste0(figDir,'/Fig_06',letters[label],'.png'),
     width = gPars$reso, height = gPars$reso)
 plotCC(
   E, uE,
